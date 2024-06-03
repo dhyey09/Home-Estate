@@ -10,11 +10,9 @@ export default function SignUp() {
     const navigate = useNavigate();
 
     const handleVisible1 = (e) => {
-        e.preventDefault();
         setVisible1(!visible1);
     }
     const handleVisible2 = (e) => {
-        e.preventDefault();
         setVisible2(!visible2);
     }
     const handleChange = (e) => {
@@ -60,13 +58,13 @@ export default function SignUp() {
                 <input type="text" placeholder='phone' className='border p-3 rounded-lg ' id='phone' onChange={handleChange} required />
                 <span className="flex items-center">
                     <input type={visible1 ? 'text' : 'password'} placeholder='password' className='border p-3 rounded-l-lg w-full' id='password1' onChange={handleChange} required />
-                    <button className="bg-red-500 p-4 rounded-r-lg hover:bg-red-600" onClick={handleVisible1}><FaEye className='text-slate-200' /></button>
+                    <button type='button' className="bg-slate-500 p-4 rounded-r-lg hover:bg-green-600" onClick={handleVisible1}><FaEye className='text-slate-200' /></button>
                 </span>
                 <span className="flex items-center">
                     <input type={visible2 ? 'text' : 'password'} placeholder='confirm password' className='border p-3 rounded-l-lg w-full' id='password2' onChange={handleChange} required />
-                    <button className="bg-red-500 p-4 rounded-r-lg hover:bg-red-600" onClick={handleVisible2}><FaEye className='text-slate-200' /></button>
+                    <button type='button' className="bg-slate-500 p-4 rounded-r-lg hover:bg-green-600" onClick={handleVisible2}><FaEye className='text-slate-200' /></button>
                 </span>
-                <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-80">Sign up</button>
+                <button disabled={loading} className="bg-green-600 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-80">Sign up</button>
             </form>
             <div className='flex gap-2 mt-2'>
                 <p>Have an account?</p>
