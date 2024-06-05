@@ -26,6 +26,7 @@ export default function SignUp() {
         setLoading(true);
         if (formData.password1 != formData.password2) {
             alert("Passwords do not match");
+            setLoading(false);
         }
         else {
             const res = await fetch('/api/auth/sign-up',
@@ -43,7 +44,6 @@ export default function SignUp() {
                 alert(data.message);
             }
             else {
-                setError(null);
                 navigate('/sign-in')
             }
 
@@ -54,14 +54,14 @@ export default function SignUp() {
             <h1 className="text-3xl text-center font-semibold my-5">Sign Up</h1>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
                 <input type="text" placeholder='username' className='border p-3 rounded-lg ' id='username' onChange={handleChange} required />
-                <input type="text" placeholder='email' className='border p-3 rounded-lg ' id='email' onChange={handleChange} required />
+                <input type="email" placeholder='email' className='border p-3 rounded-lg ' id='email' onChange={handleChange} required />
                 <input type="text" placeholder='phone' className='border p-3 rounded-lg ' id='phone' onChange={handleChange} required />
                 <span className="flex items-center">
-                    <input type={visible1 ? 'text' : 'password'} placeholder='password' className='border p-3 rounded-l-lg w-full' id='password1' onChange={handleChange} required />
+                    <input type={visible1 ? 'text' : 'password'} placeholder='password' className='border p-3 rounded-l-lg w-full focus:outline-none' id='password1' onChange={handleChange} required />
                     <button type='button' className="bg-slate-500 p-4 rounded-r-lg hover:bg-green-600" onClick={handleVisible1}><FaEye className='text-slate-200' /></button>
                 </span>
                 <span className="flex items-center">
-                    <input type={visible2 ? 'text' : 'password'} placeholder='confirm password' className='border p-3 rounded-l-lg w-full' id='password2' onChange={handleChange} required />
+                    <input type={visible2 ? 'text' : 'password'} placeholder='confirm password' className='border p-3 rounded-l-lg w-full focus:outline-none' id='password2' onChange={handleChange} required />
                     <button type='button' className="bg-slate-500 p-4 rounded-r-lg hover:bg-green-600" onClick={handleVisible2}><FaEye className='text-slate-200' /></button>
                 </span>
                 <button disabled={loading} className="bg-green-600 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-80">Sign up</button>

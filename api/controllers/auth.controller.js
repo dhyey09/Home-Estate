@@ -24,10 +24,20 @@ const signIn = async (req, res, next) => {
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if (!validPassword) return next(errorHandler(401, "Invalid Password"));
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
-        res.cookie('access_token', token, { httpOnly: true }).status(200).json({ 'username': validUser.username, 'email': validUser.email, 'phone': validUser.phone });
+        res.cookie('access_token', token, { httpOnly: true }).status(200).json({ '_id': validUser._id, 'username': validUser.username, 'email': validUser.email, 'phone': validUser.phone });
     }
     catch {
         next(error);
     }
 }
-export { signUp, signIn }
+
+const signOut = (req, res, next) => {
+try {
+    res.clearCookie('access_token');
+    res.status(200).json("Logged Out");
+} catch (error) {
+    next(error);
+}
+}
+
+export { signUp, signIn,signOut }
