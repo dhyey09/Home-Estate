@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { FaEye } from 'react-icons/fa';
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
     const { currentUser } = useSelector((state) => state.user);
     const { loading, error } = useSelector((state) => state.user);
     const [formData, setFormData] = useState({})
     const [visible, setVisible] = useState(false);
+    const [userListings, setUserListings] = useState([])
     const dispatch = useDispatch();
     const handleVisible = (e) => {
         setVisible(!visible);
@@ -61,18 +63,32 @@ export default function Profile() {
         }
     }
 
-    const handleSignOut = async () =>{
+    const handleSignOut = async () => {
         try {
             dispatch(signOutUserStart());
             const res = await fetch('/api/auth/signout');
             const data = await res.json();
-            if(data.success===false){
+            if (data.success === false) {
                 dispatch(signOutUserFailure(data.message));
                 return;
             }
             dispatch(signOutUserSuccess(data));
         } catch (error) {
             dispatch(signOutUserFailure(error.message));
+        }
+    }
+
+    const handleShowListings = async () => {
+        try {
+            const res = await fetch(`/api/user/listings/${currentUser._id}`);
+            const data = await res.json();
+            if (data.success === false) {
+                alert(data.message);
+                return
+            }
+            setUserListings(data);
+        } catch (error) {
+            alert(error.message);
         }
     }
     return (
@@ -92,6 +108,25 @@ export default function Profile() {
                 <span onClick={handleDelete} className='text-red-500 font-semibold hover:text-red-700 cursor-pointer'>Delete Account</span>
                 <span onClick={handleSignOut} className='text-red-500 font-semibold hover:text-red-700 cursor-pointer'>Sign out</span>
             </div>
+            <button onClick={handleShowListings} className='text-green-600 w-full mb-4'>Properties Listed</button>
+            {
+                userListings && userListings.length > 0 && userListings.map((listing) => {
+                    return <div key={listing._id} className='border gap-4 rounded-lg my-3 items-center p-3 flex justify-between'>
+
+                        <Link to={`/listing/${listing._id}`}>
+                            <img src={listing.images[0].file} className='h-24 w-34 object-contain rounded-lg' />
+                        </Link>
+                        <Link className='flex-1 text-slate-500 font-semibold hover:underline truncate' to={`/listing/${listing._id}`}>
+                            <p>{listing.title}</p>
+                        </Link>
+                        <div>
+                            <button className="text-green-600 uppercase mx-2 hover:opacity-90 hover:underline">Edit</button>
+                            <button className="text-red-600 uppercase mx-2 hover:opacity-90 hover:underline">Delete</button>
+                        </div>
+                    </div>
+                }
+                )
+            }
         </div>
     )
 }

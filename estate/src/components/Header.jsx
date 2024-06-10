@@ -1,4 +1,4 @@
-import { FaSearch, FaUser, FaUserCircle } from 'react-icons/fa';
+import { FaPlusSquare, FaSearch, FaUserCircle } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -27,11 +27,13 @@ export default function Header() {
                     <input type="text" placeholder='search' className='bg-transparent focus:outline-none w-24 sm:w-64' />
                     <FaSearch className='text-slate-700' />
                 </form>
+                <Link to="/create-listing">
+                <button className='border-2 border-emerald-500 rounded-lg'><FaPlusSquare className=' bg-slate-300 text-2xl border-none text-white hover:bg-emerald-500'/></button>
+                </Link>
                 <Link to="/profile">
                 {currentUser ?
                     <button className="border-green-600 border rounded-lg text-green-600 flex items-center p-2 hover:bg-green-600 hover:text-white"><FaUserCircle className='mx-2' />{currentUser.username}</button>
                     :
-                    
                         <button className='hidden sm:inline hover:text-white hover:cursor-pointer bg-green-500 text-white hover:bg-green-600 px-3 py-2 rounded'>Sign in</button>
                     
                 }
