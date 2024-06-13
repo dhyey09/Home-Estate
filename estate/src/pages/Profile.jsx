@@ -91,6 +91,23 @@ export default function Profile() {
             alert(error.message);
         }
     }
+
+    const handleDeleteListing = async (listingId) => {
+        try {
+            const res = await fetch(`/api/listing/delete/${listingId}`, {
+                method: 'DELETE',
+            });
+            const data = res.json();
+            if (data.success === false) {
+                alert(data.message)
+                return;
+            }
+            setUserListings((prev) => prev.filter((listing) => listing._id !== listingId));
+            alert("Property Deleted");
+        } catch (error) {
+            alert(error.message);
+        }
+    }
     return (
         <div className='p-3 max-w-lg mx-auto'>
             <h1 className="text-3xl font-semibold text-center my-7">Manage Profile</h1>
@@ -104,24 +121,26 @@ export default function Profile() {
                 </span>
                 <button disabled={loading} className="bg-green-600 text-white rounded-lg p-3 uppercase hover:opacity-90 disabled:opacity-80 cursor-pointer">Update</button>
             </form>
-            <div className='flex justify-between mt-5'>
+            <div className='flex justify-between mt-2'>
                 <span onClick={handleDelete} className='text-red-500 font-semibold hover:text-red-700 cursor-pointer'>Delete Account</span>
                 <span onClick={handleSignOut} className='text-red-500 font-semibold hover:text-red-700 cursor-pointer'>Sign out</span>
             </div>
-            <button onClick={handleShowListings} className='text-green-600 w-full mb-4'>Properties Listed</button>
+            <button onClick={handleShowListings} className='text-green-600 w-full mb-3'>Properties Listed</button>
             {
                 userListings && userListings.length > 0 && userListings.map((listing) => {
-                    return <div key={listing._id} className='border gap-4 rounded-lg my-3 items-center p-3 flex justify-between'>
+                    return <div key={listing._id} className='border gap-4 rounded-lg my-2 items-center p-3 flex justify-between'>
 
                         <Link to={`/listing/${listing._id}`}>
-                            <img src={listing.images[0].file} className='h-24 w-34 object-contain rounded-lg' />
+                            <img src={listing.images[0].file} className='h-24 w-36 object-contain rounded-lg' />
                         </Link>
                         <Link className='flex-1 text-slate-500 font-semibold hover:underline truncate' to={`/listing/${listing._id}`}>
                             <p>{listing.title}</p>
                         </Link>
                         <div>
-                            <button className="text-green-600 uppercase mx-2 hover:opacity-90 hover:underline">Edit</button>
-                            <button className="text-red-600 uppercase mx-2 hover:opacity-90 hover:underline">Delete</button>
+                            <Link to={`/update-listing/${listing._id}`}>
+                                <button className="text-green-600 uppercase mx-2 hover:opacity-90 hover:underline">Edit</button>
+                            </Link>
+                            <button className="text-red-600 uppercase mx-2 hover:opacity-90 hover:underline" onClick={() => handleDeleteListing(listing._id)}>Delete</button>
                         </div>
                     </div>
                 }

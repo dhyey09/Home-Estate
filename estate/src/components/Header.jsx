@@ -23,10 +23,12 @@ export default function Header() {
                         <li className={`hidden sm:inline hover:text-green-500 hover:cursor-pointer ${location.pathname === '/about' ? 'text-green-500 font-semibold' : ''}`}>About</li>
                     </Link>
                 </ul>
-                <form action="" className='bg-slate-100 p-3 rounded-lg flex items-center'>
+                <form action="" className='hidden sm:flex bg-slate-100 p-3 rounded-lg items-center'>
                     <input type="text" placeholder='search' className='bg-transparent focus:outline-none w-24 sm:w-64' />
                     <FaSearch className='text-slate-700' />
                 </form>
+                
+                <span className="gap-7 flex items-center">
                 <Link to="/create-listing">
                 <button className='border-2 border-emerald-500 rounded-lg'><FaPlusSquare className=' bg-slate-300 text-2xl border-none text-white hover:bg-emerald-500'/></button>
                 </Link>
@@ -38,6 +40,7 @@ export default function Header() {
                     
                 }
                 </Link>
+                </span>
             </div>
         </header>
     )
