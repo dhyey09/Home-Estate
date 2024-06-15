@@ -103,9 +103,9 @@ export default function CreateListing() {
                         <input onChange={handleChange} type="number" placeholder="Brokerage" className="border w-full p-3 rounded-lg" id="brokerage" min="100" max="10000000000" required />
                     </span>
                     <span className="flex gap-4 items-center">
-                        <input onChange={handleChange} type="number" placeholder="Bathrooms" className="border w-full p-3 rounded-lg" id="bathrooms" min="1" max="10" defaultValue="1" required />
+                        <input onChange={handleChange} type="number" placeholder="Bathrooms" className="border w-full p-3 rounded-lg" id="bathrooms" min="0" max="10" defaultValue="1" required />
                         <p>Baths</p>
-                        <input onChange={handleChange} type="number" placeholder="Bedrooms" className="border w-full p-3 rounded-lg" id="bedrooms" min="1" max="15" defaultValue="1" required />
+                        <input onChange={handleChange} type="number" placeholder="Bedrooms" className="border w-full p-3 rounded-lg" id="bedrooms" min="0" max="15" defaultValue="1" disabled={formData.type==='Commercial'} required />
                         <p>Beds</p>
                     </span>
                     <div className="flex gap-6 flex-row items-center">

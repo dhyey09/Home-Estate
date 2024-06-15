@@ -72,12 +72,12 @@ export default function Listing() {
                     </Swiper>
                     <div className="p-3 max-w-4xl mx-auto">
                         <h5 className="font-semibold text-xl mb-7 text-center">{listing.title} for {listing.listedFor}</h5>
-                        <p className="mx-3 flex items-center gap-7">
+                        <p className="mx-3 my-3 flex items-center gap-7">
                             <p>Offer: Rs. <strong>{formattedPrice}</strong> {listing.listedFor=='Rent'? 'per month': ''}</p>
                             <p>Brokerage: Rs. <strong>{listing.brokerage.toLocaleString()}</strong></p>
                         {!listing.available && <button className="bg-red-600 p-1 rounded text-white">Unavailable</button>}
                         </p>
-                        <p className="mx-3">{listing.description}</p>
+                        <p className="mx-3 my-3">{listing.description}</p>
                         <p className="flex items-center mt-2 mx-5 gap-2 text-slate-600">
                             <FaMapMarkerAlt className="text-emerald-600"/>
                             {listing.address}
