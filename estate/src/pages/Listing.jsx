@@ -70,7 +70,7 @@ export default function Listing() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <div className="p-3 max-w-4xl mx-auto">
+                    <div className="p-3 pt-16 max-w-4xl mx-auto">
                         <h5 className="font-semibold text-xl mb-7 text-center">{listing.title} for {listing.listedFor}</h5>
                         <p className="mx-3 my-3 flex items-center gap-7">
                             <p>Offer: Rs. <strong>{formattedPrice}</strong> {listing.listedFor=='Rent'? 'per month': ''}</p>

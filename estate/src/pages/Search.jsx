@@ -15,7 +15,7 @@ export default function Search() {
         furnished: 'all',
         parking: false,
         listedFor: '',
-        beds: 1,
+        beds: 0,
         sort: 'createdAt',
         order: 'desc'
     })
@@ -113,14 +113,14 @@ export default function Search() {
         navigate(`/search?${searchQuery}`);
     }
     return (
-        <div className="flex flex-col bg-slate-100 md:flex-row">
-            <div className="p-7 border-b-2 mt-7 md:border-r-2 md:min-h-screen">
+        <div className="flex flex-col bg-slate-100 md:flex-row pt-16">
+            <div className="p-7 border-b-2 mt-7 md:border-r-2 bg-slate-100 md:fixed md:left-0 md:z-10">
                 <form onSubmit={handleSubmit}>
                     <div className="flex items-center my-4 gap-3 ">
                         <label htmlFor="searchTerm" className="whitespace-nowrap">Search Term</label>
                         <input type="search" onChange={handleChange} id="searchTerm" value={formData.searchTerm} placeholder="search.." className="border rounded-lg p-3 w-full" />
                     </div>
-                    <div className="flex gap-3 my-4 flex-row items-center">
+                    <div className="flex gap-3 my-4 flex-col md:flex-row items-center">
                         <label htmlFor="furnished">Furniture: </label>
                         <select onChange={handleChange} className="border border-gray-500 rounded-lg max-w-80 mr-4 p-1" id="furnished" value={formData.furnished}>
                             <option value="all">Select</option>
@@ -131,20 +131,26 @@ export default function Search() {
                         <label>Parking Space: </label>
                         <input onChange={handleChange} type="checkbox" className="border w-4 h-4" id="parking" checked={formData.parking} />
                     </div>
-                    <div className="flex gap-3 my-4 flex-row items-center">
-                        <label htmlFor="type">Type: </label>
-                        <select onChange={handleChange} className="border border-gray-500 mr-4 rounded-lg max-w-80 ml-7 w-36 p-1" id="type" value={formData.type}>
-                            <option value="all">Select</option>
-                            <option value="Apartment">Apartment</option>
-                            <option value="House">House</option>
-                            <option value="Commercial">Commercial</option>
-                        </select>
-                        <label>No Brokerage: </label>
-                        <input onChange={handleChange} type="checkbox" className="border w-4 h-4" id="brokerage" checked={formData.brokerage} />
+                    <div className="flex gap-3 my-4 flex-col md:flex-row items-center">
+                        <div>
+                            <label htmlFor="type">Type: </label>
+                            <select onChange={handleChange} className="border border-gray-500 mr-4 rounded-lg max-w-80 ml-7 w-36 p-1" id="type" value={formData.type}>
+                                <option value="all">Select</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="House">House</option>
+                                <option value="Commercial">Commercial</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>No Brokerage: </label>
+                            <input onChange={handleChange} type="checkbox" className="border w-4 h-4" id="brokerage" checked={formData.brokerage} />
+                        </div>
                     </div>
-                    <div className="flex items-center gap-3 ">
+                    <div className="flex flex-col md:flex-row items-center gap-3 ">
+                        <div>
                         <label htmlFor="beds" className="whitespace-nowrap">Bedroom:</label>
                         <input type="number" onChange={handleChange} id="beds" placeholder="beds" className="border border-black p-1 rounded-lg" min="0" max="10" value={formData.beds} />
+                        </div>
                         <div className="flex gap-3 flex-row items-center">
                             <label htmlFor="listedFor">Requirement: </label>
                             <span className="flex items-center">
@@ -173,14 +179,14 @@ export default function Search() {
                     <button className="w-full uppercase rounded-lg bg-emerald-600 hover:bg-emerald-500 p-2 mt-3 text-white">Search</button>
                 </form>
             </div >
-            <div className="">
-                <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">Search results</h1>
+            <div className="mt-3 md:ml-[34vw] md:overflow-y-auto md:z-0">
+                <h1 className="text-3xl font-semibold border-b p-3 text-slate-700">Search results</h1>
                 <div className="p-7 flex flex-wrap gap-5">
-                    {listings && listings.length===0 && (
+                    {listings && listings.length === 0 && (
                         <p className="text-xl text-red-500 text-center">No Properties Found</p>
                     )}
-                    {listings && listings.length>0 && listings.map((listing)=>(
-                        <ListingItem key={listing._id} listing={listing}/>
+                    {listings && listings.length > 0 && listings.map((listing) => (
+                        <ListingItem key={listing._id} listing={listing} />
                     ))}
                 </div>
             </div>

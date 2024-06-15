@@ -118,7 +118,7 @@ export default function UpdateListing() {
         }
     }
     return (
-        <main className="max-w-4xl mx-auto p-3">
+        <main className="max-w-4xl mx-auto p-3 pt-16">
             <h1 className="text-3xl font-semibold text-center my-7">Update Property</h1>
             <form className="flex flex-col sm:flex-row gap-8" encType="multipart/form-data">
                 <div className="flex flex-col gap-4 flex-1">

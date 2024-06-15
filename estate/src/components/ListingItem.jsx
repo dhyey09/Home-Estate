@@ -31,7 +31,7 @@ export default function ListingItem({ listing }) {
         formattedPrice = price.toLocaleString();
     }
     return (
-        <div className="bg-white w-full md:w-60 shadow-md hover:shadow-xl transition-shadow overflow-hidden my-3 rounded-lg">
+        <div className="bg-white w-full md:w-60 shadow-md hover:shadow-xl transition-shadow overflow-hidden rounded-lg">
             <Link to={`/listing/${listing._id}`}>
                 <img src={listing.images[0].file} alt="cover image" className="h-[30vh] w-full object-cover hover:scale-105 transition-scale duration-300" />
                 <div className="p-3 flex flex-col gap-2 w-full">
