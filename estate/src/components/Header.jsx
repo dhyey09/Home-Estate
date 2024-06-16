@@ -1,5 +1,5 @@
 import { FaPlusSquare, FaSearch, FaUserCircle } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function Header() {
@@ -18,9 +18,6 @@ export default function Header() {
                 <ul className="flex gap-4">
                     <Link to='/'>
                         <li className={`hidden sm:inline hover:text-green-500 hover:cursor-pointer ${location.pathname === '/' ? 'text-green-500 font-semibold' : ''}`}>Home</li>
-                    </Link>
-                    <Link to="/about">
-                        <li className={`hidden sm:inline hover:text-green-500 hover:cursor-pointer ${location.pathname === '/about' ? 'text-green-500 font-semibold' : ''}`}>About</li>
                     </Link>
                 </ul>
                     
