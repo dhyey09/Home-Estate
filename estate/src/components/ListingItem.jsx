@@ -41,7 +41,7 @@ export default function ListingItem({ listing }) {
                         <p className="truncate w-full text-sm text-slate-700">{listing.address}</p>
                     </div>
                     <p className="text-sm text-gray-700 line-clamp-2">{listing.description}</p>
-                    <p className="text-gray-700 font-semibold items-center"> Rs. <strong>{formattedPrice}</strong> {listing.listedFor == 'Rent' ? 'per month' : ''}</p>
+                    <p className="text-gray-700 font-semibold items-center"> Rs. <strong>{formattedPrice}</strong> {listing.listedFor == 'Rent' ? '/ month' : ''}</p>
                     <div className="text-slate-700 flex gap-4">
                         <div className="font-bold text-xs">
                             {listing.type}

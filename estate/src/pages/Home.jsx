@@ -80,9 +80,9 @@ export default function Home() {
                     Search property...
                 </Link>
             </div>
-            <Swiper navigation loop autoplay>
+            <Swiper navigation loop>
                 {cityProperties && cityProperties.length > 0 && cityProperties.map((listing) => (
-                    <SwiperSlide>
+                    <SwiperSlide key={listing._id}>
                         <img src={listing.images[0].file} className='w-full h-[75vh]' />
                     </SwiperSlide>
                 ))}
@@ -96,8 +96,8 @@ export default function Home() {
                             </div>
                             <div className='flex flex-wrap gap-8 mx-auto'>
                                 {
-                                    cityProperties.map((listing)=>(
-                                        <ListingItem listing={listing} key={listing._id}/>
+                                    cityProperties.map((listing) => (
+                                        <ListingItem listing={listing} key={listing._id} />
                                     ))
                                 }
                             </div>
@@ -112,8 +112,8 @@ export default function Home() {
                             </div>
                             <div className='flex flex-wrap gap-8 mx-auto'>
                                 {
-                                    rentProperties.map((listing)=>(
-                                        <ListingItem listing={listing} key={listing._id}/>
+                                    rentProperties.map((listing) => (
+                                        <ListingItem listing={listing} key={listing._id} />
                                     ))
                                 }
                             </div>
@@ -128,8 +128,8 @@ export default function Home() {
                             </div>
                             <div className='flex flex-wrap gap-8'>
                                 {
-                                    saleProperties.map((listing)=>(
-                                        <ListingItem listing={listing} key={listing._id}/>
+                                    saleProperties.map((listing) => (
+                                        <ListingItem listing={listing} key={listing._id} />
                                     ))
                                 }
                             </div>

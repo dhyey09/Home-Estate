@@ -166,6 +166,16 @@ export const getListings = async (req, res, next) => {
         if (JSON.stringify(req.query) === '{}') {
             filteredListings = await Listing.find().sort({ ['createdAt']: 'desc' }).skip(0).limit(9)
         }
+        else if (Object.keys(req.query).length === 2 && req.query.city && req.query.limit) {
+            if (city === 'None') {
+                filteredListings = await Listing.find({brokerage:{$gte:0}}).sort({ ['createdAt']: 'desc' }).limit(limit)
+            }
+            else
+            {
+                filteredListings = await Listing.find({ city: city }).sort({ ['createdAt']: 'desc' }).limit(limit)
+            }
+            
+        }
         else {
             const listings = await Listing.find({
                 title: { $regex: searchTerm, $options: 'i' },
