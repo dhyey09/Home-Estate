@@ -6,6 +6,7 @@ import ListingItem from "../components/ListingItem.jsx";
 export default function Search() {
     const navigate = useNavigate();
     const [listings, setListings] = useState();
+    const [showMore, setShowMore] = useState(false);
     const [formData, setFormData] = useState({
         searchTerm: '',
         type: 'all',
@@ -16,6 +17,7 @@ export default function Search() {
         parking: false,
         listedFor: '',
         beds: 0,
+        city: '',
         sort: 'createdAt',
         order: 'desc'
     })
@@ -23,6 +25,7 @@ export default function Search() {
         const urlParams = new URLSearchParams(location.search);
         const searchTermFromUrl = urlParams.get('searchTerm');
         const typeFromUrl = urlParams.get('type');
+        const cityFromUrl = urlParams.get('city');
         const brokerageFromUrl = urlParams.get('brokerage');
         const furnishedFromUrl = urlParams.get('furnished');
         const parkingFromUrl = urlParams.get('parking');
@@ -37,6 +40,7 @@ export default function Search() {
             brokerageFromUrl ||
             furnishedFromUrl ||
             parkingFromUrl ||
+            cityFromUrl ||
             listedForFromUrl ||
             bedsFromUrl ||
             sortFromUrl ||
@@ -49,6 +53,7 @@ export default function Search() {
                     brokerage: brokerageFromUrl === 'true',
                     furnished: furnishedFromUrl || 'all',
                     parking: parkingFromUrl === 'true',
+                    city: cityFromUrl || '',
                     listedFor: listedForFromUrl || '',
                     beds: bedsFromUrl || 1,
                     sort: sortFromUrl || 'createdAt',
@@ -58,6 +63,7 @@ export default function Search() {
         }
 
         const fetchProperties = async () => {
+            setShowMore(false)
             const searchQuery = urlParams.toString();
             const res = await fetch(`/api/listing/get?${searchQuery}`);
             const data = await res.json();
@@ -65,9 +71,12 @@ export default function Search() {
                 console.log(data.message)
             }
             else {
+                if (data.length > 8)
+                    setShowMore(true);
+                else
+                    setShowMore(false);
                 setListings(data);
             }
-
         }
 
         fetchProperties();
@@ -104,13 +113,23 @@ export default function Search() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         const urlParams = new URLSearchParams();
         Object.entries(formData).forEach(([key, value]) => {
             urlParams.set(key, value);
         });
         const searchQuery = urlParams.toString()
         navigate(`/search?${searchQuery}`);
+    }
+    const showMoreClick = async () => {
+        const startIndex = listings.lrngth
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set('startIndex', startIndex)
+        const searchQuery = urlParams.toString()
+        const res = await fetch(`/api/listings/get?${searchQuery}`);
+        const data = await res.json()
+        if (data.length < 9)
+            setShowMore(false);
+        setListings([...listings, ...data]);
     }
     return (
         <div className="flex flex-col bg-slate-100 md:flex-row pt-16">
@@ -148,8 +167,8 @@ export default function Search() {
                     </div>
                     <div className="flex flex-col md:flex-row items-center gap-3 ">
                         <div>
-                        <label htmlFor="beds" className="whitespace-nowrap">Bedroom:</label>
-                        <input type="number" onChange={handleChange} id="beds" placeholder="beds" className="border border-black p-1 rounded-lg" min="0" max="10" value={formData.beds} />
+                            <label htmlFor="beds" className="whitespace-nowrap mr-2">Bedroom:</label>
+                            <input type="number" onChange={handleChange} id="beds" placeholder="beds" className="border border-black p-1 rounded-lg" min="0" max="10" value={formData.beds} />
                         </div>
                         <div className="flex gap-3 flex-row items-center">
                             <label htmlFor="listedFor">Requirement: </label>
@@ -168,6 +187,10 @@ export default function Search() {
                         <RangeSlider type={type} onPriceChange={handlePriceChange} />
                     </div>
                     <div className="flex gap-3 my-5 flex-row items-center">
+                        <div>
+                            <label htmlFor="city" className="mr-3 whitespace-nowrap">City:</label>
+                            <input type="text" onChange={handleChange} id="city" placeholder="city" className="border p-1 w-28 rounded-lg" value={formData.city||''} />
+                        </div>
                         <label htmlFor="type">Sort by: </label>
                         <select onChange={handleChange} className="border border-gray-500 mr-4 rounded-lg max-w-80 p-1" id="sort_order" value={`${formData.sort}_${formData.order}`}>
                             <option value="price_desc">Price High to Low</option>
@@ -179,7 +202,7 @@ export default function Search() {
                     <button className="w-full uppercase rounded-lg bg-emerald-600 hover:bg-emerald-500 p-2 mt-3 text-white">Search</button>
                 </form>
             </div >
-            <div className="mt-3 md:ml-[34vw] md:overflow-y-auto md:z-0">
+            <div className="mt-3 md:ml-[36vw] md:overflow-y-auto md:z-0">
                 <h1 className="text-3xl font-semibold border-b p-3 text-slate-700">Search results</h1>
                 <div className="p-7 flex flex-wrap gap-5">
                     {listings && listings.length === 0 && (
@@ -188,6 +211,9 @@ export default function Search() {
                     {listings && listings.length > 0 && listings.map((listing) => (
                         <ListingItem key={listing._id} listing={listing} />
                     ))}
+                    {showMore && (
+                        <button onClick={showMoreClick} className="text-green-700 hover:underline p-7 text-center">Show More..</button>
+                    )}
                 </div>
             </div>
         </div >

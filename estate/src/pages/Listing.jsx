@@ -63,14 +63,14 @@ export default function Listing() {
         <main>
             {listing && listing.images.length > 0 &&
                 <>
-                    <Swiper navigation autoplay="true" loop className="mt-4">
+                    <Swiper navigation autoplay="true" loop className="mt-4 pt-16">
                         {listing.images.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img src={`../${image.file}`} className='h-[35vw] w-screen sm:mx-auto sm:w-[90vw]' alt={image.filename} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <div className="p-3 pt-16 max-w-4xl mx-auto">
+                    <div className="p-3 max-w-4xl mx-auto">
                         <h5 className="font-semibold text-xl mb-7 text-center">{listing.title} for {listing.listedFor}</h5>
                         <p className="mx-3 my-3 flex items-center gap-7">
                             <p>Offer: Rs. <strong>{formattedPrice}</strong> {listing.listedFor=='Rent'? 'per month': ''}</p>
